@@ -1,0 +1,20 @@
+{
+  "name": "promise-example",
+  "description": "promise 사용해보기",
+  "version": "1.0.0",
+  "author": {
+    "email": "hidelryn@gmail.com",
+    "name": "delryn",
+    "url": "https://hidelryn@github.io"
+  },
+  "keywords": [
+    "promise example"
+  ],
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2"
+  }
+}

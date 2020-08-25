@@ -1,0 +1,44 @@
+{
+  "name": "auth-example",
+  "description": "passport를 이용한 회원가입 및 로그인 구현",
+  "author": {
+    "email": "hidelryn@gmail.com",
+    "name": "delryn",
+    "url": "https://hidelryn.github.io"
+  },
+  "keywords": [
+    "passport example",
+    "signup example",
+    "signin example"
+  ],
+  "version": "1.0.0",
+  "main": "server.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "connect-redis": "^3.4.2",
+    "cookie-parser": "^1.4.4",
+    "csurf": "^1.10.0",
+    "ejs": "^2.6.2",
+    "express": "^4.17.1",
+    "express-session": "^1.16.2",
+    "glob": "^7.1.4",
+    "mongoose": "^5.6.9",
+    "morgan": "^1.9.1",
+    "passport": "^0.4.0",
+    "passport-facebook": "^3.0.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.4",
+    "redis": "^2.8.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2"
+  }
+}

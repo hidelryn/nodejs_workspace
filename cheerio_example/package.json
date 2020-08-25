@@ -1,0 +1,26 @@
+{
+  "name": "cheerio-example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "author": {
+    "email": "hidelryn@gmail.com",
+    "name": "delryn",
+    "url": "https://hidelryn.github.io"
+  },
+  "keywords": [
+    "cheerio example"
+  ],
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "cheerio": "^1.0.0-rc.3"
+  },
+  "devDependencies": {
+    "eslint": "^6.3.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2"
+  }
+}

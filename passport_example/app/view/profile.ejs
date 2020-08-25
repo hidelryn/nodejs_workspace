@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>auth-example</title>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <link rel="stylesheet" href="/asset/css/profile.css">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+  <div class="container">
+    <div class="fb-profile">
+      <img align="left" class="fb-image-lg" src="/asset/img/cover.png" alt="cover" />
+      <img align="left" class="fb-image-profile thumbnail" src="<% if (profile.image) { %> <%=profile.image%> <% } else { %> /asset/img/noprofile.png <% } %>" alt="Profile image example" />
+      <div class="fb-profile-text">
+        <h1><%=profile.email%></h1>
+        <p>Welcome! <%=profile.name%></p>
+        <p><a href="/logout" class="btn btn-primary">logout</a></p>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

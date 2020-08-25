@@ -1,0 +1,8 @@
+2020-04-12T17:47:41+09:00 [info]: http - [0mGET /eqwe [33m404[0m 5.140 ms - 143[0m
+
+2020-04-12T17:47:41+09:00 [info]: http - [0mGET /set-item?id=abc&name=123 [32m200[0m 541.433 ms - 50[0m
+
+2020-04-12T17:47:41+09:00 [info]: http - [0mGET /set-item?id=abc&name=123&item_id=123 [32m200[0m 4.376 ms - 57[0m
+
+2020-04-12T17:47:41+09:00 [info]: http - [0mGET /set-item?id=abc&name=123&item_id=item_123 [36m304[0m 2.525 ms - -[0m
+

@@ -1,0 +1,26 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 30 # 해당 초만큼 실행
+      arrivalRate: 300 # 가상 사용자 수
+  processor: "./util.js"
+  defaults:
+    headers:
+      Content-Type: 'application/json'
+scenarios:
+  - flow:
+    - post:
+        url: "/join"
+        body: ""
+        afterResponse: "responseData"
+        match:
+          json: "$.code"
+          value: 200
+    - function: "setParam"
+    - get:
+        url: "/data?id={{ id }}"
+        match:
+          json: "$.code"
+          value: 200
+        
+

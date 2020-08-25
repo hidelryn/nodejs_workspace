@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="csrf" content="<%=csrfToken%>">
+  <title>auth-example</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+  <link rel="stylesheet" href="/asset/css/style.css">
+</head>
+
+<body>
+  <div class="container" id="container">
+    <div class="form-container sign-up-container">
+      <form id="signUpForm">
+        <h1>Create Account</h1>
+        <div class="social-container">
+          <a href="/auth/facebook" class="social"><i class="fab fa-facebook-f"></i></a>
+          <a href="/auth/google" class="social"><i class="fab fa-google-plus-g"></i></a>
+          <a href="/auth/twitter" class="social"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <span class="pb-10">or use your email for registration</span>
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <input type="text" name="name" placeholder="Name" required />
+        <button id="signUpSubmit" class="mt-20">Sign Up</button>
+      </form>
+    </div>
+    <div class="form-container sign-in-container">
+      <form id="signInForm">
+        <h1>Sign in</h1>
+        <div class="social-container">
+          <a href="/auth/facebook" class="social"><i class="fab fa-facebook-f"></i></a>
+          <a href="/auth/google" class="social"><i class="fab fa-google-plus-g"></i></a>
+          <a href="/auth/twitter" class="social"><i class="fab fa-twitter"></i></a>
+        </div>
+        <span class="pb-10">or use your account</span>
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <button id="signInSubmit" class="mt-20">Sign In</button>
+      </form>
+    </div>
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <h1>Welcome Back!</h1>
+          <p>To keep connected with us please login with your personal info</p>
+          <button class="ghost" id="signIn">Sign In</button>
+        </div>
+        <div class="overlay-panel overlay-right">
+          <h1>Hello, Friend!</h1>
+          <p>Enter your personal details and start journey with us</p>
+          <button class="ghost" id="signUp">Sign Up</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <script>
+    $(() => {
+      const container = $('#container');
+
+      const csrf = $('meta[name="csrf"]').attr('content');
+
+      $('#signUp').on('click', () => {
+        container.addClass('right-panel-active');
+      });
+
+      $('#signIn').on('click', () => {
+        container.removeClass('right-panel-active');
+      });
+
+      const sweetMessage = (_title, _comment, _type) => {
+        swal(_title, _comment, _type);
+      }
+
+      const validateEmail = (_email) => {
+        const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(_email);
+      }
+
+      $('#signUpSubmit').on('click', (e) => {
+        e.preventDefault();
+        if (!$('#signUpForm [name="email"]').val()) {
+          sweetMessage('warning', 'email is required', 'warning');
+          return false;
+        } else {
+          if (!validateEmail($('#signUpForm [name="email"]').val())) {
+            sweetMessage('warning', 'check your email', 'warning');
+            return false;
+          }
+        }
+
+        if (!$('#signUpForm [name="password"]').val()) {
+          sweetMessage('warning', 'password is required', 'warning');
+          return false;
+        }
+
+        if (!$('#signUpForm [name="name"]').val()) {
+          sweetMessage('warning', 'name is required', 'warning');
+          return false;
+        }
+
+        $.ajax({
+          url: `/signUp?_csrf=${csrf}`,
+          type: 'post',
+          data: $('#signUpForm').serialize(),
+          success: (data) => {
+            if (data.result) {
+              swal(data.title, data.comment, 'success').then(() => {
+                return location.replace('/');
+              });
+            } else {
+              swal(data.title, data.comment, 'warning');
+            }
+          },
+          error: () => {
+            swal('error', 'something wrong..', 'error');
+          }
+        });
+      });
+
+      $('#signInSubmit').on('click', (e) => {
+        e.preventDefault();
+        if (!$('#signInForm [name="email"]').val()) {
+          sweetMessage('warning', 'email is required', 'warning');
+          return false;
+        }
+
+        if (!$('#signInForm [name="password"]').val()) {
+          sweetMessage('warning', 'password is required', 'warning');
+          return false;
+        }
+
+        $.ajax({
+          url: `/signIn?_csrf=${csrf}`,
+          type: 'post',
+          data: $('#signInForm').serialize(),
+          success: (data) => {
+            if (data.result) {
+              swal(data.title, data.comment, 'success').then(() => {
+                return location.replace('/success');
+              });
+            } else {
+              swal(data.title, data.comment, 'error');
+            }
+          },
+          error: () => {
+            swal('error', 'something wrong..', 'error');
+          },
+        });
+      });
+
+    });
+
+  </script>
+
+</body>
+
+</html>

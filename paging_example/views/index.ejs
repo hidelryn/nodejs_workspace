@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>nodejs-paging-example</title>
+  <link href='https://fonts.googleapis.com/css?family=Audiowide|Iceland|Monoton|Pacifico|Press+Start+2P|Vampiro+One'
+    rel='stylesheet'>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <table class="bordered">
+        <thead>
+          <tr>
+            <th>제목</th>
+            <th>글</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (articles.contents.length != 0) { %>
+          <% articles.contents.forEach(function(Article){ %>
+          <tr>
+            <td><a href="/view/<%=Article.id%>"><%=Article.title%></a></td>
+            <td><a href="/view/<%=Article.id%>"><%=Article.text%></a></td>
+          </tr>
+          <% }); %>
+          <% } else { %>
+          <tr>
+            <td>등록된 글이 없습니다.</td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <% if (articles.contents.length != 0) { %>
+  <div class="" style="text-align:center;">
+    <ul class="pagination">
+      <li <%if(articles.pageNum == 1){%> class="disabled" <%}else{%>class="waves-effect" <%}%> >
+       <a <%if(articles.pageNum > 1){%> href="?pageNum=<%=articles.pageNum-1%>" <%}%>>
+         <i class="material-icons">chevron_left</i>
+       </a>
+     </li>
+    <% for(var i=articles.pnStart; i<=articles.pnEnd; i++){ %> <li <%if(i===articles.pageNum){%> class="active"
+        <%}%>><a href="?pageNum=<%=i%>"><%=i%></a></li>
+      <% } %>
+      <li <%if(articles.pageNum == articles.pnTotal){%> class="disabled" <%}else{%> class="waves-effect" <%}%>>
+       <a <%if(articles.pageNum < articles.pnTotal){%> href="?pageNum=<%=articles.pageNum+1%>" <%}%> class="waves-effect">
+       <i class="material-icons">chevron_right</i>
+     </a>
+   </li>
+   </ul>
+  </div>
+  <% } %> 
+</body> </html>

@@ -1,0 +1,3 @@
+2020-04-12T17:47:41+09:00 [warn]: spend_item - 파라미터 누락
+2020-04-12T17:47:41+09:00 [error]: spend_item - 잘못된 아이템 타입
+2020-04-12T17:47:41+09:00 [info]: spend_item - user_id: abc, name: 123, 획득 아이템: item_123

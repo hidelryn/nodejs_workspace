@@ -1,0 +1,28 @@
+{
+  "name": "nodes-paging-example",
+  "version": "1.0.0",
+  "main": "app.js",
+  "license": "MIT",
+  "author": {
+    "email": "hidelryn@gmail.com",
+    "name": "delryn",
+    "url": "https://hidelryn@github.io"
+  },
+  "keywords": [
+    "nodejs paging"
+  ],
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^2.7.1",
+    "express": "^4.17.1",
+    "mysql2": "^1.7.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.3.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2"
+  }
+}

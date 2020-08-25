@@ -1,0 +1,12 @@
+{
+  "name": "load_script",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "join": "artillery run join.yaml"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

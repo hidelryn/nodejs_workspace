@@ -1,0 +1,27 @@
+{
+  "name": "instagram-login-example",
+  "description": "인스타그램 로그인 api 사용 해보기",
+  "author": {
+    "email": "hidelryn@gmail.com",
+    "name": "delryn",
+    "url": "https://hidelryn@github.io"
+  },
+  "keywords": [
+    "instagram signup example"
+  ],
+  "version": "1.0.0",
+  "main": "server.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2"
+  }
+}
