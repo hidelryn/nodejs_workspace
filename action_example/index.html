@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>
+    행동력 구현 페이지
+  </title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.3.0/milligram.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <table>
+      <thead>
+        <tr>
+          <th>유저 ID</th>
+          <th>행동력 개수</th>
+          <th>남은 충전 시간</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="userId">
+          </td>
+          <td id="actionCount">
+          </td>
+          <td id="lastUpdateTime">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button class="button button-outline" id="use">소모</button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    var min = 0;
+    var sec = 60;
+    var maxActionCount = 5;
+    var charge_time = 60 * 1000;
+    var userId = '1q2w3e';
+    var intervalVar;
+
+    $(function () {
+      $.ajax({
+        url: 'http://localhost:3000',
+        type: 'get',
+        success: function (data) {
+          console.log(data);
+          data = JSON.parse(data);
+          $('#userId').html(userId);
+          $('#actionCount').html(data.action_count);
+          if (data.last_update_time == 0) {
+            $('#lastUpdateTime').html('0:00');
+          } else {
+            init(data.server_time, data.last_update_time, function (isRun) {
+              if (isRun) actionCoolTimeLoop();
+            });
+          }
+        },
+        error: function (request, status, error) {
+          console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+        }
+      });
+
+      $('#use').click(function (e) {
+        e.preventDefault();
+        if (parseInt($('#actionCount').html()) <= 0) {
+          alert('행동력을 모두 소진하였습니다!');
+          return;
+        } else {
+          $.ajax({
+            url: 'http://localhost:3000/use',
+            type: 'get',
+            success: function (data) {
+              console.log('data', data);
+              data = JSON.parse(data);
+              $('#actionCount').html(data.action_count);
+              stopInterval();
+              actionCoolTimeLoop();
+            },
+            error: function (request, status, error) {
+              console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            }
+          });
+        }
+      });
+    });
+
+    function init(serverTime, lastUpdateTime, callback) {
+      var remainMs = Math.floor((serverTime - lastUpdateTime) / charge_time);
+      console.log('remainMs', remainMs);
+      if (remainMs > 0) {
+        min = Math.floor(remainMs / 60000);
+        sec = ((remainMs % 60000) / 1000).toFixed(0);
+      }
+      var result;
+      if (sec === 60) {
+        result = min + ":" + '00';
+      } else {
+        result = min + ":" + (sec < 10 ? '0' : '') + sec;
+      }
+      $('#lastUpdateTime').html(result);
+      if (remainMs === 0) return callback(false);
+      return callback(true);
+    }
+
+    function actionCoolTimeLoop() {
+      intervalVar = setInterval(function () {
+        loop();
+      }, 1000);
+    }
+
+    function loop() {
+      sec--;
+      var result;
+      if (sec === 0 && min > 0) {
+        min = min - 1;
+        sec = 60;
+      } else if (sec === 0 && min === 0 && maxActionCount !== parseInt($('#actionCount').html())) {
+        $('#actionCount').html(parseInt($('#actionCount').html()) + 1);
+        if (maxActionCount === parseInt($('#actionCount').html())) {
+          sec = 0;
+          min = 0;
+          stopInterval();
+        } else {
+          sec = 60;
+          min = 0;
+        }
+      }
+
+      if (sec === 60 && min === 0) {
+        result = 1 + ":" + '00';
+      } else if (sec === 60 && min === 0) {
+        result = 1 + ":" + '00';
+      } else if (sec === 60 && min > 0) {
+        result = min + 1 + ":" + '00';
+      } else {
+        result = min + ":" + (sec < 10 ? '0' : '') + sec;
+      }
+
+
+      $('#lastUpdateTime').html(result);
+    }
+
+    function stopInterval() {
+      clearInterval(intervalVar);
+    }
+  </script>
+</body>
+
+</html>
