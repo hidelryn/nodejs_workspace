@@ -1,0 +1,17 @@
+{
+  "name": "google_sheet_rdb_example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "google-spreadsheet": "^3.0.13",
+    "mysql2": "^2.2.5"
+  }
+}
