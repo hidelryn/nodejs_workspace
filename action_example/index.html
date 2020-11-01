@@ -45,18 +45,18 @@
     var intervalVar;
 
     $(function () {
-      $.ajax({
+      $.ajax({ // 진입 시 서버에서 현재 보유한 행동력과 서버에서 충전한 시간(또는 클라에서 소모한 시간)을 가지고 옴.
         url: 'http://localhost:3000',
         type: 'get',
         success: function (data) {
           console.log(data);
           data = JSON.parse(data);
           $('#userId').html(userId);
-          $('#actionCount').html(data.action_count);
-          if (data.last_update_time == 0) {
+          $('#actionCount').html(data.active_point);
+          if (data.last_update_ts === 0) { // 0인 경우 풀 행동력이라 X
             $('#lastUpdateTime').html('0:00');
           } else {
-            init(data.server_time, data.last_update_time, function (isRun) {
+            init(data.server_ts, data.last_update_ts, function (isRun) {
               if (isRun) actionCoolTimeLoop();
             });
           }
@@ -78,7 +78,7 @@
             success: function (data) {
               console.log('data', data);
               data = JSON.parse(data);
-              $('#actionCount').html(data.action_count);
+              $('#actionCount').html(data.active_point);
               stopInterval();
               actionCoolTimeLoop();
             },
@@ -90,10 +90,15 @@
       });
     });
 
+    /**
+     * 실행 초기 함수
+     * @param {Number} serverTime 서버에서 주는 현재 시간
+     * @param {Number} lastUpdateTime 서버에서 충전한 시간 또는 클라에서 소모했었던 시간(단위는 ms)
+     */
     function init(serverTime, lastUpdateTime, callback) {
-      var remainMs = Math.floor((serverTime - lastUpdateTime) / charge_time);
-      console.log('remainMs', remainMs);
-      if (remainMs > 0) {
+      var remainMs = (lastUpdateTime + charge_time) - serverTime; // 남은 시간
+      if (remainMs < 0) return callback(false);
+      if (remainMs > 0) { // ms to min, sec 계산법은 스택오브플로우에서 참고함
         min = Math.floor(remainMs / 60000);
         sec = ((remainMs % 60000) / 1000).toFixed(0);
       }
@@ -104,7 +109,6 @@
         result = min + ":" + (sec < 10 ? '0' : '') + sec;
       }
       $('#lastUpdateTime').html(result);
-      if (remainMs === 0) return callback(false);
       return callback(true);
     }
 
