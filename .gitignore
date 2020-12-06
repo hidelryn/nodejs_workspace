@@ -1,1 +1,3 @@
 **/node_modules
+/json2csv_example/
+/mysql_insert_many
